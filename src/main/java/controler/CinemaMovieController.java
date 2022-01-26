@@ -10,6 +10,7 @@ public class CinemaMovieController {
      cinemaMovieList.clear();
      cinemaMovieList =  CinemaMovieRepository.getCinemaMovieList();
      cinemaMovieList.show();
+
     }
 
     public static void cinemaProfit(String cinemaId){
@@ -37,7 +38,9 @@ public static void addScene(int cinemaId,String movieId,String date,String time,
 {
     int movie = Integer.parseInt(movieId);
     int countInt = Integer.parseInt(count);
-    CinemaMovieRepository.addScene(cinemaId,movie,date,time,countInt);
+
+        CinemaMovieRepository.addScene(cinemaId, movie, date, time, countInt);
+
 }
 
     public static int remindTicket(String idCinemaMovie){

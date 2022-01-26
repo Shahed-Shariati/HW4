@@ -26,20 +26,24 @@ public static boolean checkAuthenticationAccount(User user){
 }
 public static void authenticationCinema(String  id,String active){
     int act = 0;
-    int idCinema = Integer.parseInt(id);
-    if(active.equalsIgnoreCase("active")){
-      act = 1;
-        CinemaRepository.authenticationCinema(idCinema,act);
-    }else if(active.equalsIgnoreCase("inactive")){
-        act = 0;
-        CinemaRepository.authenticationCinema(idCinema,act);
-    }else {
-        System.out.println("invalidation");
+    try {
+        int idCinema = Integer.parseInt(id);
+        if (active.equalsIgnoreCase("active")) {
+            act = 1;
+            CinemaRepository.authenticationCinema(idCinema, act);
+        } else if (active.equalsIgnoreCase("inactive")) {
+            act = 0;
+            CinemaRepository.authenticationCinema(idCinema, act);
+        } else {
+            System.out.println("invalidation");
+        }
+    }catch (NumberFormatException e){
+        System.out.println("Id is wrong");
     }
-
   }
     public static void addMovieToList( String name, String time, String type)
     {
+
         int tim = Integer.parseInt(time);
         Movie movie = new Movie(name, tim, type);
         MovieRepository.addMovieToList(movie);

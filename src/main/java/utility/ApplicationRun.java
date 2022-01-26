@@ -27,8 +27,11 @@ public void runApplication(){
    //--------------------------------------------------------------- Login -----------------------------------------------------------------
         if(input.equalsIgnoreCase("1")){
            System.out.println("Enter user name and password");
+
            String[] username = getUserInput().trim().split(" +");
+
            user = UserRepository.login(username[0],username[1]);
+
            if(user == null){
                System.out.println("user name or password is wrong");
            }else {
@@ -65,20 +68,28 @@ public void runApplication(){
                           MovieController.showMovieList();
                       }else if(inputCinema.equals("2")){
                           if(CinemaController.checkAuthenticationAccount(user)) {
-                              System.out.println("Enter information movie:\n"
-                                      + "moviename time type\n"
-                                      + "enter 'back' to return menu\n"
-                                      + "(Example:squadGame 2 action)");
-                              String[] inputMovie = getUserInput().trim().split(" +");
-                              if (inputMovie[0].equalsIgnoreCase("back")) {
-                                  System.out.println();
-                              } else if(inputMovie.length < 3)
-                              {
-                                  System.out.println("Wrong input");
-                              }else {
-                                  CinemaController.addMovieToList( inputMovie[0], inputMovie[1], inputMovie[2]);
-                              }
-                          }else {
+
+                                  System.out.println("Enter information movie:\n"
+                                          + "moviename time type\n"
+                                          + "enter 'back' to return menu\n"
+                                          + "(Example:squadGame 2 action)");
+                                  String[] inputMovie = getUserInput().trim().split(" +");
+
+                                  if (inputMovie[0].equalsIgnoreCase("back")) {
+                                      System.out.println();
+                                  } else if (inputMovie.length < 3) {
+                                      System.out.println("Wrong input");
+                                  } else {
+                                      try{
+                                          CinemaController.addMovieToList(inputMovie[0], inputMovie[1], inputMovie[2]);
+                                      }catch (NumberFormatException e){
+                                          System.out.println("Time is wrong");
+                                      }
+
+                                  }
+
+                          }
+                          else {
                               System.out.println(" ------------------your account is not Authentication --------------------------");
                           }
                       }else if(inputCinema.equals("3")){
@@ -92,8 +103,12 @@ public void runApplication(){
                                   System.out.println("Enter date and time and count ticket:\n(Example: 2021-1-4 21:00 20)");
                                   String[] dateTime = getUserInput().trim().split(" +");
                                   if(dateTime.length == 3) {
-                                      CinemaController.addScene(user.getId(), movieId[0], dateTime[0], dateTime[1], dateTime[2]);
-                                      System.out.println("------------------------success-------------------  ");
+                                      try {
+                                          CinemaController.addScene(user.getId(), movieId[0], dateTime[0], dateTime[1], dateTime[2]);
+                                          System.out.println("------------------------success-------------------  ");
+                                      }catch (NumberFormatException e){
+                                          System.out.println("time is wrong");
+                                      }
                                   }else {
                                       System.out.println("Wrong input");
                                   }
@@ -111,7 +126,12 @@ public void runApplication(){
                               if (ticketId.equalsIgnoreCase("back")) {
                                   System.out.println();
                               } else {
+                                  try{
                                   CinemaController.deleteTicket(ticketId);
+
+                                  }catch (NumberFormatException e){
+                                      System.out.println("Id is wrong");
+                                  }
                               }
                           }else {
                               System.out.println(" ------------------your account is not Authentication --------------------------");
@@ -121,6 +141,8 @@ public void runApplication(){
                               UserController.cinemaProfit(cinemaId);
                       }else if(inputCinema.equals("6")){
                        break;
+                      }else {
+                          System.out.println("your choice is wrong");
                       }
 //-------------------------------------------------------user menu-----------------------------------------------------------------------------------------------------
                    } else if(user != null && user.getRoleId() == 2){
@@ -136,9 +158,14 @@ public void runApplication(){
                              if(reserveTicketID.equalsIgnoreCase("back")){
                                  System.out.println();
                              }else {
-                                 System.out.println("Enter ticket count:");
-                                 String ticketCount = getUserInput().trim();
-                                 UserController.reserveTicket(user,reserveTicketID,ticketCount);
+                                 try {
+                                     System.out.println("Enter ticket count:");
+                                     String ticketCount = getUserInput().trim();
+                                     UserController.reserveTicket(user,reserveTicketID,ticketCount);
+                                 }catch (NumberFormatException e){
+                                     System.out.println(" id or number ticket is wrong");
+                                 }
+
                              }
                          }else if(userInput.equals("3")){
                              System.out.println("Enter movie date for search:\n(Enter back to return main menu:)");
@@ -146,7 +173,11 @@ public void runApplication(){
                              if(movieDate.equalsIgnoreCase("back")){
                                  System.out.println();
                              }else {
-                                 UserController.searchByDateMovie(movieDate);
+                                 try {
+                                     UserController.searchByDateMovie(movieDate);
+                                 }catch (IllegalArgumentException e){
+                                     System.out.println("your date is wrong");
+                                 }
                              }
                          }else if (userInput.equals("4")){
                              System.out.println("Enter movie name for search:\n(Enter back to return main menu:)");

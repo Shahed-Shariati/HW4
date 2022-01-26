@@ -43,6 +43,7 @@ public class CinemaMovieList {
     }
 
     public boolean isEmpty(){
+
         return cinemaMovies.length == 0;
     }
     public int size(){

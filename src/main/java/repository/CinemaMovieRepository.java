@@ -133,8 +133,11 @@ public class CinemaMovieRepository {
             preparedStatement.setInt(6,0);
             preparedStatement.execute();
             preparedStatement.close();
-        }catch (SQLException | ParseException e){
+        }catch (SQLException e){
             System.out.println(e);
+
+        }catch (ParseException e){
+            System.out.println("date is wrong");
         }
     }
 
